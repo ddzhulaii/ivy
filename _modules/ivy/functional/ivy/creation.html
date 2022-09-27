@@ -76,19 +76,19 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Data Classes</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../../data_classes/container.html">Container</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../data_classes/array.html">Array</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../data_classes/container.html">Container</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Framework Classes</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../../stateful/initializers.html">Initializers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../stateful/converters.html">Converters</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../stateful/optimizers.html">Optimizers</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../stateful/module.html">Module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../stateful/layers.html">Layers</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../stateful/norms.html">Norms</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../stateful/activations.html">Activations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../stateful/sequential.html">Sequential</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../stateful/activations.html">Activations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../stateful/module.html">Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../stateful/optimizers.html">Optimizers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../stateful/norms.html">Norms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../stateful/layers.html">Layers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../stateful/initializers.html">Initializers</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Docs</span></p>
 <ul>
@@ -131,7 +131,7 @@
 <span></span><span class="c1"># global</span>
 <span class="kn">import</span> <span class="nn">functools</span>
 <span class="kn">from</span> <span class="nn">numbers</span> <span class="kn">import</span> <span class="n">Number</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Callable</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Protocol</span><span class="p">,</span> <span class="n">TypeVar</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
@@ -245,6 +245,21 @@
     <span class="k">return</span> <span class="n">new_fn</span></div>
 
 
+<span class="c1"># Type hints #</span>
+<span class="c1"># -----------#</span>
+
+<span class="n">SupportsBufferProtocol</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s2">&quot;SupportsBufferProtocol&quot;</span><span class="p">)</span>
+<span class="n">_T_co</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s2">&quot;_T_co&quot;</span><span class="p">,</span> <span class="n">covariant</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="NestedSequence"><a class="viewcode-back" href="../../../../functional/ivy/creation/NestedSequence.html#ivy.functional.ivy.creation.NestedSequence">[docs]</a><span class="k">class</span> <span class="nc">NestedSequence</span><span class="p">(</span><span class="n">Protocol</span><span class="p">[</span><span class="n">_T_co</span><span class="p">]):</span>
+    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="o">/</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_T_co</span><span class="p">:</span>
+        <span class="o">...</span>
+
+    <span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">/</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="o">...</span></div>
+
+
 <span class="c1"># Array API Standard #</span>
 <span class="c1"># -------------------#</span>
 
@@ -310,7 +325,7 @@
 <span class="sd">    in the standard.</span>
 
 <span class="sd">    Both the description and the type hints above assumes an array input for simplicity,</span>
-<span class="sd">    but this function is *nestable*, and therefore also accepts :code:`ivy.Container`</span>
+<span class="sd">    but this function is *nestable*, and therefore also accepts :class:`ivy.Container`</span>
 <span class="sd">    instances in place of any of the arguments.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">current_backend</span><span class="p">()</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span>
@@ -321,18 +336,27 @@
 <div class="viewcode-block" id="asarray"><a class="viewcode-back" href="../../../../functional/ivy/creation/asarray/asarray_functional.html#ivy.functional.ivy.creation.asarray">[docs]</a><span class="nd">handle_out_argument</span>
 <span class="nd">handle_exceptions</span>
 <span class="k">def</span> <span class="nf">asarray</span><span class="p">(</span>
-    <span class="n">x</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">ivy</span><span class="o">.</span><span class="n">Array</span><span class="p">,</span> <span class="n">ivy</span><span class="o">.</span><span class="n">NativeArray</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">Number</span><span class="p">],</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Number</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span>
+    <span class="n">obj</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span>
+        <span class="n">ivy</span><span class="o">.</span><span class="n">Array</span><span class="p">,</span>
+        <span class="n">ivy</span><span class="o">.</span><span class="n">NativeArray</span><span class="p">,</span>
+        <span class="nb">bool</span><span class="p">,</span>
+        <span class="nb">int</span><span class="p">,</span>
+        <span class="nb">float</span><span class="p">,</span>
+        <span class="n">NestedSequence</span><span class="p">,</span>
+        <span class="n">SupportsBufferProtocol</span><span class="p">,</span>
+    <span class="p">],</span>
     <span class="o">/</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
     <span class="n">copy</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">dtype</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">ivy</span><span class="o">.</span><span class="n">Dtype</span><span class="p">,</span> <span class="n">ivy</span><span class="o">.</span><span class="n">NativeDtype</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">device</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">ivy</span><span class="o">.</span><span class="n">Device</span><span class="p">,</span> <span class="n">ivy</span><span class="o">.</span><span class="n">NativeDevice</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">out</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ivy</span><span class="o">.</span><span class="n">Array</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ivy</span><span class="o">.</span><span class="n">Array</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Converts the input to an array.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    x</span>
+<span class="sd">    obj</span>
 <span class="sd">        input data, in any form that can be converted to an array. This includes lists,</span>
 <span class="sd">        lists of tuples, tuples, tuples of tuples, tuples of lists and ndarrays.</span>
 <span class="sd">    copy</span>
@@ -342,6 +366,9 @@
 <span class="sd">       be the default floating-point data type. Default  ``None``.</span>
 <span class="sd">    device</span>
 <span class="sd">       device on which to place the created array. Default: ``None``.</span>
+<span class="sd">    out</span>
+<span class="sd">        optional output array, for writing the result to. It must have a shape that the</span>
+<span class="sd">        inputs broadcast to.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -354,10 +381,12 @@
 <span class="sd">    in the standard.</span>
 
 <span class="sd">    Both the description and the type hints above assumes an array input for simplicity,</span>
-<span class="sd">    but this function is *nestable*, and therefore also accepts :code:`ivy.Container`</span>
+<span class="sd">    but this function is *nestable*, and therefore also accepts :class:`ivy.Container`</span>
 <span class="sd">    instances in place of any of the arguments.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">current_backend</span><span class="p">()</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="n">copy</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">current_backend</span><span class="p">()</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span>
+        <span class="n">obj</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="n">copy</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="n">out</span>
+    <span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="zeros"><a class="viewcode-back" href="../../../../functional/ivy/creation/zeros/zeros_functional.html#ivy.functional.ivy.creation.zeros">[docs]</a><span class="nd">outputs_to_ivy_arrays</span>
@@ -399,7 +428,7 @@
 <span class="sd">    in the standard.</span>
 
 <span class="sd">    Both the description and the type hints above assumes an array input for simplicity,</span>
-<span class="sd">    but this function is *nestable*, and therefore also accepts :code:`ivy.Container`</span>
+<span class="sd">    but this function is *nestable*, and therefore also accepts :class:`ivy.Container`</span>
 <span class="sd">    instances in place of any of the arguments.</span>
 
 <span class="sd">    Examples</span>
@@ -454,7 +483,7 @@
 <span class="sd">    in the standard.</span>
 
 <span class="sd">    Both the description and the type hints above assumes an array input for simplicity,</span>
-<span class="sd">    but this function is *nestable*, and therefore also accepts :code:`ivy.Container`</span>
+<span class="sd">    but this function is *nestable*, and therefore also accepts :class:`ivy.Container`</span>
 <span class="sd">    instances in place of any of the arguments.</span>
 
 <span class="sd">    Examples</span>
@@ -516,12 +545,12 @@
 <span class="sd">    in the standard.</span>
 
 <span class="sd">    Both the description and the type hints above assumes an array input for simplicity,</span>
-<span class="sd">    but this function is *nestable*, and therefore also accepts :code:`ivy.Container`</span>
+<span class="sd">    but this function is *nestable*, and therefore also accepts :class:`ivy.Container`</span>
 <span class="sd">    instances in place of any of the arguments.</span>
 
 <span class="sd">    Functional Examples</span>
 <span class="sd">    -------------------</span>
-<span class="sd">    With int datatype:</span>
+<span class="sd">    With :code:`int` datatype:</span>
 
 <span class="sd">    &gt;&gt;&gt; x = ivy.array([1, 2, 3, 4, 5, 6])</span>
 <span class="sd">    &gt;&gt;&gt; fill_value = 1</span>
@@ -543,7 +572,7 @@
 <span class="sd">    &gt;&gt;&gt; print(y)</span>
 <span class="sd">    ivy.array([0.000123, 0.000123, 0.000123, 0.000123, 0.000123, 0.000123])</span>
 
-<span class="sd">    With ivy.NativeArray input:</span>
+<span class="sd">    With :class:`ivy.NativeArray` input:</span>
 
 <span class="sd">    &gt;&gt;&gt; x = ivy.native_array([3.0, 8.0])</span>
 <span class="sd">    &gt;&gt;&gt; fill_value = 0.000123</span>
@@ -557,7 +586,7 @@
 <span class="sd">    ivy.array([[0.000123, 0.000123, 0.000123],</span>
 <span class="sd">           [0.000123, 0.000123, 0.000123]])</span>
 
-<span class="sd">    With ivy.Container input:</span>
+<span class="sd">    With :class:`ivy.Container` input:</span>
 
 <span class="sd">    &gt;&gt;&gt; x = ivy.Container(a=ivy.array([1.2,2.2324,3.234]), \</span>
 <span class="sd">                           b=ivy.array([4.123,5.23,6.23]))</span>
@@ -572,7 +601,7 @@
 <span class="sd">    Instance Method Examples:</span>
 <span class="sd">    ------------------------</span>
 
-<span class="sd">    With ivy.Array input:</span>
+<span class="sd">    With :class:`ivy.Array` input:</span>
 
 <span class="sd">    &gt;&gt;&gt; x = ivy.array([1, 2, 3, 4, 5, 6])</span>
 <span class="sd">    &gt;&gt;&gt; fill_value = 1</span>
@@ -580,7 +609,7 @@
 <span class="sd">    &gt;&gt;&gt; print(y)</span>
 <span class="sd">    ivy.array([1, 1, 1, 1, 1, 1])</span>
 
-<span class="sd">    With ivy.Container input:</span>
+<span class="sd">    With :class:`ivy.Container` input:</span>
 
 <span class="sd">    &gt;&gt;&gt; x = ivy.Container(a=ivy.array([1,2,3]), \</span>
 <span class="sd">                           b=ivy.array([4,5,6]))</span>
@@ -639,7 +668,7 @@
 <span class="sd">    in the standard.</span>
 
 <span class="sd">    Both the description and the type hints above assumes an array input for simplicity,</span>
-<span class="sd">    but this function is *nestable*, and therefore also accepts :code:`ivy.Container`</span>
+<span class="sd">    but this function is *nestable*, and therefore also accepts :class:`ivy.Container`</span>
 <span class="sd">    instances in place of any of the arguments.</span>
 
 <span class="sd">    Examples</span>
@@ -695,7 +724,7 @@
 <span class="sd">    in the standard.</span>
 
 <span class="sd">    Both the description and the type hints above assumes an array input for simplicity,</span>
-<span class="sd">    but this function is *nestable*, and therefore also accepts :code:`ivy.Container`</span>
+<span class="sd">    but this function is *nestable*, and therefore also accepts :class:`ivy.Container`</span>
 <span class="sd">    instances in place of any of the arguments.</span>
 
 <span class="sd">    Functional Examples</span>
@@ -807,7 +836,7 @@
 <span class="sd">    in the standard.</span>
 
 <span class="sd">    Both the description and the type hints above assumes an array input for simplicity,</span>
-<span class="sd">    but this function is *nestable*, and therefore also accepts :code:`ivy.Container`</span>
+<span class="sd">    but this function is *nestable*, and therefore also accepts :class:`ivy.Container`</span>
 <span class="sd">    instances in place of any of the arguments.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -853,7 +882,7 @@
 <span class="sd">    in the standard.</span>
 
 <span class="sd">    Both the description and the type hints above assumes an array input for simplicity,</span>
-<span class="sd">    but this function is *nestable*, and therefore also accepts :code:`ivy.Container`</span>
+<span class="sd">    but this function is *nestable*, and therefore also accepts :class:`ivy.Container`</span>
 <span class="sd">    instances in place of any of the arguments.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -899,7 +928,7 @@
 <span class="sd">    in the standard.</span>
 
 <span class="sd">    Both the description and the type hints above assumes an array input for simplicity,</span>
-<span class="sd">    but this function is *nestable*, and therefore also accepts :code:`ivy.Container`</span>
+<span class="sd">    but this function is *nestable*, and therefore also accepts :class:`ivy.Container`</span>
 <span class="sd">    instances in place of any of the arguments.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -947,7 +976,7 @@
 <span class="sd">    in the standard.</span>
 
 <span class="sd">    Both the description and the type hints above assumes an array input for simplicity,</span>
-<span class="sd">    but this function is *nestable*, and therefore also accepts :code:`ivy.Container`</span>
+<span class="sd">    but this function is *nestable*, and therefore also accepts :class:`ivy.Container`</span>
 <span class="sd">    instances in place of any of the arguments.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -1003,7 +1032,7 @@
 <span class="sd">    in the standard.</span>
 
 <span class="sd">    Both the description and the type hints above assumes an array input for simplicity,</span>
-<span class="sd">    but this function is *nestable*, and therefore also accepts :code:`ivy.Container`</span>
+<span class="sd">    but this function is *nestable*, and therefore also accepts :class:`ivy.Container`</span>
 <span class="sd">    instances in place of any of the arguments.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -1063,7 +1092,7 @@
 <span class="sd">    in the standard.</span>
 
 <span class="sd">    Both the description and the type hints above assumes an array input for simplicity,</span>
-<span class="sd">    but this function is *nestable*, and therefore also accepts :code:`ivy.Container`</span>
+<span class="sd">    but this function is *nestable*, and therefore also accepts :class:`ivy.Container`</span>
 <span class="sd">    instances in place of any of the arguments.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -1129,13 +1158,13 @@
 <span class="sd">        in the standard.</span>
 
 <span class="sd">        Both the description and the type hints above assumes an array input for simplicity,</span>
-<span class="sd">        but this function is *nestable*, and therefore also accepts :code:`ivy.Container`</span>
+<span class="sd">        but this function is *nestable*, and therefore also accepts :class:`ivy.Container`</span>
 <span class="sd">        instances in place of any of the arguments.</span>
 
 <span class="sd">        Functional Examples</span>
 <span class="sd">        -------------------</span>
 
-<span class="sd">        With :code:`ivy.Array` input:</span>
+<span class="sd">        With :class:`ivy.Array` input:</span>
 
 <span class="sd">        &gt;&gt;&gt; x = ivy.array([1, 2])</span>
 <span class="sd">        &gt;&gt;&gt; y = ivy.array([3, 4])</span>
@@ -1161,7 +1190,7 @@
 <span class="sd">               [4, 1],</span>
 <span class="sd">               [4, 1]])</span>
 
-<span class="sd">        With :code:`ivy.NativeArray` input:</span>
+<span class="sd">        With :class:`ivy.NativeArray` input:</span>
 
 <span class="sd">        &gt;&gt;&gt; x = ivy.native_array([1, 2])</span>
 <span class="sd">        &gt;&gt;&gt; y = ivy.native_array([3, 4])</span>
@@ -1223,7 +1252,7 @@
 <span class="sd">    in the standard.</span>
 
 <span class="sd">    Both the description and the type hints above assumes an array input for simplicity,</span>
-<span class="sd">    but this function is *nestable*, and therefore also accepts :code:`ivy.Container`</span>
+<span class="sd">    but this function is *nestable*, and therefore also accepts :class:`ivy.Container`</span>
 <span class="sd">    instances in place of any of the arguments.</span>
 
 <span class="sd">    Functional Examples</span>
@@ -1251,7 +1280,7 @@
 <span class="sd">               [[True,  True],</span>
 <span class="sd">                [True,  True]]])</span>
 
-<span class="sd">    With :code:`ivy.NativeDevice` input:</span>
+<span class="sd">    With :class:`ivy.NativeDevice` input:</span>
 
 <span class="sd">    &gt;&gt;&gt; shape = ivy.NativeShape((1, 2))</span>
 <span class="sd">    &gt;&gt;&gt; fill_value = 0.68</span>
@@ -1261,7 +1290,7 @@
 <span class="sd">    &gt;&gt;&gt; print(x)</span>
 <span class="sd">    ivy.array([[0.68, 0.68]])</span>
 
-<span class="sd">    With :code:&#39;ivy.Container&#39; input:</span>
+<span class="sd">    With :class:`ivy.Container` input:</span>
 
 <span class="sd">    &gt;&gt;&gt; shape = ivy.Container(a=ivy.NativeShape((2, 1)), b=ivy.Shape((2, 1, 2)))</span>
 <span class="sd">    &gt;&gt;&gt; fill_value = ivy.Container(a=0.99, b=False)</span>
@@ -1318,7 +1347,7 @@
 <span class="sd">    in the standard.</span>
 
 <span class="sd">    Both the description and the type hints above assumes an array input for simplicity,</span>
-<span class="sd">    but this function is *nestable*, and therefore also accepts :code:`ivy.Container`</span>
+<span class="sd">    but this function is *nestable*, and therefore also accepts :class:`ivy.Container`</span>
 <span class="sd">    instances in place of any of the arguments.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -1356,7 +1385,7 @@
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
-<span class="sd">    With one :code:`ivy.Array` input:</span>
+<span class="sd">    With one :class:`ivy.Array` input:</span>
 
 <span class="sd">    &gt;&gt;&gt; x = ivy.array([-1, 0, 1])</span>
 <span class="sd">    &gt;&gt;&gt; y = ivy.copy_array(x)</span>
@@ -1379,7 +1408,7 @@
 <span class="sd">    &gt;&gt;&gt; print(x)</span>
 <span class="sd">    ivy.array([1, 0, 1, 1])</span>
 
-<span class="sd">    With one :code:`ivy.Container` input:</span>
+<span class="sd">    With one :class:`ivy.Container` input:</span>
 
 <span class="sd">    &gt;&gt;&gt; x = ivy.Container(a=ivy.array([-1, 0, 1]))</span>
 <span class="sd">    &gt;&gt;&gt; y = ivy.copy_array(x)</span>
@@ -1397,7 +1426,7 @@
 <span class="sd">        b: ivy.array([-1, 0, 1, 1, 1, 0])</span>
 <span class="sd">    }</span>
 
-<span class="sd">    With one :code:`ivy.Container` static method:</span>
+<span class="sd">    With one :class:`ivy.Container` static method:</span>
 
 <span class="sd">    &gt;&gt;&gt; x = ivy.Container(a=ivy.array([-1, 0, 1]),\</span>
 <span class="sd">                          b=ivy.array([-1, 0, 1, 1, 1, 0]))</span>
@@ -1408,7 +1437,7 @@
 <span class="sd">        b: ivy.array([-1, 0, 1, 1, 1, 0])</span>
 <span class="sd">    }</span>
 
-<span class="sd">    With one :code:`ivy.Array` instance method:</span>
+<span class="sd">    With one :class:`ivy.Array` instance method:</span>
 
 <span class="sd">    &gt;&gt;&gt; x = ivy.array([-1, 0, 1])</span>
 <span class="sd">    &gt;&gt;&gt; y = x.copy_array()</span>
@@ -1420,7 +1449,7 @@
 <span class="sd">    &gt;&gt;&gt; print(y)</span>
 <span class="sd">    ivy.array([1, 0, 1, 1])</span>
 
-<span class="sd">    With :code:`ivy.Container` instance method:</span>
+<span class="sd">    With :class:`ivy.Container` instance method:</span>
 
 <span class="sd">    &gt;&gt;&gt; x = ivy.Container(a=ivy.array([1, 0, 1]),\</span>
 <span class="sd">                          b=ivy.array([-1, 0, 1, 1]))</span>
@@ -1554,7 +1583,7 @@
 <span class="sd">        Tensor of evenly-spaced values.</span>
 
 <span class="sd">    Both the description and the type hints above assumes an array input for simplicity,</span>
-<span class="sd">    but this function is *nestable*, and therefore also accepts :code:`ivy.Container`</span>
+<span class="sd">    but this function is *nestable*, and therefore also accepts :class:`ivy.Container`</span>
 <span class="sd">    instances in place of any of the arguments.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
